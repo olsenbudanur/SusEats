@@ -57,7 +57,21 @@ export default function AuctionCard(props) {
       <Box sx={{ background: "#EEE", borderRadius: "0 0 10px 10px" }}>
         <Grid container spacing={0} sx={{ py: 1, px: 3, textAlign: "right" }}>
           <Grid item xs={12}>
-            {hearted ?<Favorite sx={{fill: "red"}} onClick={() => {setHearted(false)}}/> : <FavoriteBorder className="heart-icon" onClick={() => {setHearted(true)}}/>}
+            {hearted ? (
+              <Favorite
+                sx={{ fill: "red" }}
+                onClick={() => {
+                  setHearted(false);
+                }}
+              />
+            ) : (
+              <FavoriteBorder
+                className="heart-icon"
+                onClick={() => {
+                  setHearted(true);
+                }}
+              />
+            )}
           </Grid>
         </Grid>
       </Box>

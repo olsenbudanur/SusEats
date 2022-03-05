@@ -44,7 +44,7 @@ const Navbar = (props) => {
             component="div"
             sx={{ mr: 2, height: 25, display: { xs: 'none', md: 'flex' } }}
           >
-                        <img src={suseatslogo} />
+          <img src={suseatslogo} />
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -91,7 +91,7 @@ const Navbar = (props) => {
           >
             <img src={suseatslogo} />
           </Typography>
-          <Box sx={{flexGrow: 13}}></Box>
+          <Box sx={{flexGrow: 25}}></Box>
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }}}>
             {pages.map((page) => (
               <Button

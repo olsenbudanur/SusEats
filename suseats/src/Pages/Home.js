@@ -1,6 +1,8 @@
-import { Box, flexbox } from "@mui/system";
+import { Box } from "@mui/system";
 import { AppBar, Button, Grid, Typography } from "@mui/material";
 import Navbar from "../ComponentTemplates/Navbar";
+
+
 
 export default function Home(props) {
   return (
@@ -11,14 +13,19 @@ export default function Home(props) {
       }}
     >
       <Navbar changePage={props.changePage} background="transparent" />
-      <Grid container spacing={2} pt={{xs: 10, sm: 15}} px={2} justifyContent="flex-start">
+      <Grid
+        container
+        spacing={2}
+        pt={{ xs: 10, sm: 15 }}
+        px={2}
+        justifyContent="flex-start"
+      >
         <Grid item xs={12}>
-            <Typography variant={"h1"} sx={{ color: "white" }}>
-              EAT MORE SUS.
-            </Typography>
+          <Typography variant={"h1"} sx={{ color: "white" }}>
+            EAT MORE SUS.
+          </Typography>
         </Grid>
         <Grid item xs={12}>
-
           <Button
             pt={2}
             variant="outlined"
@@ -27,7 +34,7 @@ export default function Home(props) {
               props.changePage("Sales");
             }}
           >
-            explore options.
+            find food.
           </Button>
         </Grid>
       </Grid>
