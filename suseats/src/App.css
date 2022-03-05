@@ -1,0 +1,11 @@
+body {
+    background: #F5F5F5;
+}
+
+.auction-card:hover {
+    box-shadow: 0 0 25px rgba(33,33,33,.2); 
+  }
+
+.heart-icon:hover {
+    fill: #AAA;
+}

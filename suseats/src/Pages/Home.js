@@ -2,7 +2,7 @@ import { Box, flexbox } from "@mui/system";
 import { AppBar, Button, Grid, Typography } from "@mui/material";
 import Navbar from "../ComponentTemplates/Navbar";
 
-export default function Home() {
+export default function Home(props) {
   return (
     <Box
       sx={{
@@ -10,7 +10,7 @@ export default function Home() {
         background: "linear-gradient(to bottom right, #57CC99, #38A3A5)",
       }}
     >
-      <Navbar background="transparent" />
+      <Navbar changePage={props.changePage} background="transparent" />
       <Grid container spacing={2} pt={{xs: 10, sm: 15}} px={2} justifyContent="flex-start">
         <Grid item xs={12}>
             <Typography variant={"h1"} sx={{ color: "white" }}>
@@ -23,6 +23,9 @@ export default function Home() {
             pt={2}
             variant="outlined"
             sx={{ color: "white", borderColor: "white" }}
+            onClick={() => {
+              props.changePage("Sales");
+            }}
           >
             explore options.
           </Button>

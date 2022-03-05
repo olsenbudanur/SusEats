@@ -55,7 +55,7 @@ const Navbar = (props) => {
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
             >
-              <MenuIcon />
+              <MenuIcon sx={{fill: "#FFF"}}/>
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -96,7 +96,10 @@ const Navbar = (props) => {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => {
+                  handleCloseNavMenu();
+                  props.changePage(page);
+                }}
                 sx={{ my: 2, mx: 2, color: 'white', display: "block"}}
               >
                 {page}
