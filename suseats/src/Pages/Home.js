@@ -5,6 +5,20 @@ import Navbar from "../ComponentTemplates/Navbar";
 
 
 export default function Home(props) {
+
+  async function metaMask(){
+    console.log("hi");
+    if (typeof window.ethereum !== "undefined"){
+      console.log("metamask exists");
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+
+    }
+    else {
+      console.log("no metamask");
+    }
+
+  }
+
   return (
     <Box
       sx={{
@@ -35,6 +49,14 @@ export default function Home(props) {
             }}
           >
             find food.
+          </Button>
+          <Button
+            pt={2}
+            variant="outlined"
+            sx={{ color: "white", borderColor: "white" }}
+            onClick={metaMask}
+          >
+            MetaMask
           </Button>
         </Grid>
       </Grid>
