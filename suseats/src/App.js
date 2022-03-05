@@ -5,6 +5,7 @@ import { ThemeProvider } from "@emotion/react";
 import { theme } from "./theme";
 import { useState } from "react";
 import Auctions from "./Pages/Auctions";
+import Profile from "./Pages/Profile";
 
 function App() {
   const [page, setPage] = useState("Home");
@@ -19,6 +20,12 @@ function App() {
     return <ThemeProvider theme={theme}>
       <Auctions changePage={setPage}/>
   </ThemeProvider>
+  }
+
+  if (page === "Profile") {
+    return <ThemeProvider theme={theme}>
+      <Profile changePage={setPage} />
+      </ThemeProvider>
   }
 
   return (

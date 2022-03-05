@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import suseatslogo from "../Images/suseatslogo.png";
 
-const pages = ['Home', 'Sales', 'Login'];
+const pages = ['Home', 'Sales', 'Profile'];
 
 const Navbar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);

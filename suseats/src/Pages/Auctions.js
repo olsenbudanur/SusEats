@@ -96,9 +96,7 @@ export default function Auctions(props) {
                   lg={4}
                 >
                   <Slider
-                    aria-label="Price"
                     defaultValue={2}
-                    valueLabelDisplay="auto"
                     step={1}
                     min={1}
                     max={4}
