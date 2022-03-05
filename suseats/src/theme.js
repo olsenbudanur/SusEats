@@ -18,6 +18,7 @@ export const theme = createTheme({
             fontWeight: 500
         },
         button: {
+            color: "white",
             fontSize: 18,
             fontWeight: 300
         }

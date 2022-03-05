@@ -21,9 +21,9 @@ export default function Home(props) {
 
   return (
     <Box
+    className="animated-gradient"
       sx={{
         height: "80vh",
-        background: "linear-gradient(to bottom right, #57CC99, #38A3A5)",
       }}
     >
       <Navbar changePage={props.changePage} background="transparent" />
