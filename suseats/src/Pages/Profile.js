@@ -470,9 +470,10 @@ export default function Profile(props) {
                           console.log(result["status"]);
 
                           if (result.status === "success") {
-                            props.setAuthenticated(true);
-                            props.setUser(result.userid);
+                            userType === "restaurant" ? props.setUser(result.restid) : props.setUser(result.userreid);
                             props.setUserType(userType);
+                            props.setAuthenticated(true);
+                            console.log(result.userid)
                           }
                         })
                         .catch((error) => console.log("error", error));
