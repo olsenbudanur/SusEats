@@ -9,6 +9,8 @@ import Profile from "./Pages/Profile";
 
 function App() {
   const [page, setPage] = useState("Home");
+  const [isAuthenticated, setAuthenticated] = useState(false);
+  const [user, setUser] = useState("")
 
   if (page === "Home") {
     return     <ThemeProvider theme={theme}>
@@ -24,7 +26,7 @@ function App() {
 
   if (page === "Profile") {
     return <ThemeProvider theme={theme}>
-      <Profile changePage={setPage} />
+      <Profile changePage={setPage} isAuthenticated={isAuthenticated} setAuthenticated={setAuthenticated} setUser={setUser}/>
       </ThemeProvider>
   }
 
