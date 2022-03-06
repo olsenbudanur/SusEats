@@ -12,6 +12,7 @@ import Select from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
 import { Grid, TextField, Typography } from "@mui/material";
 import { Button } from "@mui/material";
+const { ethers } = require("ethers");
 
 const cuisines = ["Mexican", "Thai", "Chinese"];
 
@@ -21,7 +22,188 @@ export default function Profile(props) {
 
   const [loginIdentifier, setLoginID] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [auctionToEnd, setAuctionToEnd] = useState("");
 
+  async function endAuction(address) {
+    //
+    console.log(address)
+    await window.ethereum.request({ method: "eth_requestAccounts" });
+    // Auction address is hardcoded, change that
+    const auctionAddress = address;
+    const abi = [
+      {
+        inputs: [
+          {
+            internalType: "uint256",
+            name: "biddingTime",
+            type: "uint256",
+          },
+          {
+            internalType: "address payable",
+            name: "beneficiaryAddress",
+            type: "address",
+          },
+        ],
+        stateMutability: "nonpayable",
+        type: "constructor",
+      },
+      {
+        inputs: [],
+        name: "AuctionAlreadyEnded",
+        type: "error",
+      },
+      {
+        inputs: [],
+        name: "AuctionEndAlreadyCalled",
+        type: "error",
+      },
+      {
+        inputs: [],
+        name: "AuctionNotYetEnded",
+        type: "error",
+      },
+      {
+        inputs: [
+          {
+            internalType: "uint256",
+            name: "highestBid",
+            type: "uint256",
+          },
+        ],
+        name: "BidNotHighEnough",
+        type: "error",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: false,
+            internalType: "address",
+            name: "winner",
+            type: "address",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+        ],
+        name: "AuctionEnded",
+        type: "event",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: false,
+            internalType: "address",
+            name: "bidder",
+            type: "address",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+        ],
+        name: "HighestBidIncreased",
+        type: "event",
+      },
+      {
+        inputs: [],
+        name: "auctionEndTime",
+        outputs: [
+          {
+            internalType: "uint256",
+            name: "",
+            type: "uint256",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "beneficiary",
+        outputs: [
+          {
+            internalType: "address payable",
+            name: "",
+            type: "address",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "highestBid",
+        outputs: [
+          {
+            internalType: "uint256",
+            name: "",
+            type: "uint256",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "highestBidder",
+        outputs: [
+          {
+            internalType: "address",
+            name: "",
+            type: "address",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "bid",
+        outputs: [],
+        stateMutability: "payable",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "withdraw",
+        outputs: [
+          {
+            internalType: "bool",
+            name: "",
+            type: "bool",
+          },
+        ],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "auctionEnd",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ];
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(auctionAddress, abi, signer);
+
+    //
+    // No clue if this is necesary
+    const options = { value: ethers.utils.parseEther("0.0001") };
+    await contract.auctionEnd();
+  }
+
+
+  console.log(auctionToEnd);
   //name, email, phone, password, food pref., public key
   if (props.isAuthenticated) {
     return (
@@ -126,7 +308,7 @@ export default function Profile(props) {
               <Grid item xs={12} sm={4} md={3}>
                 <TextField fullWidth label="Address"></TextField>
               </Grid>
-                            <Grid item xs={12}>
+              <Grid item xs={12}>
                 <Button
                   variant="contained"
                   sx={{
@@ -136,6 +318,33 @@ export default function Profile(props) {
                   }}
                 >
                   Submit Changes
+                </Button>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h5">End Auctions</Typography>
+              </Grid>
+              <Grid item xs={12} sm={4} md={3}>
+                <TextField
+                  fullWidth
+                  onChange={(e) => {
+                    setAuctionToEnd(e.target.value);
+                  }}
+                  label="Auction Public Key"
+                ></TextField>
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    color: "white",
+                    background:
+                      "linear-gradient(to bottom right, #57CC99, #38A3A5)",
+                  }}
+                  onClick={() => {
+                    endAuction(auctionToEnd);
+                  }}
+                >
+                  End Auction
                 </Button>
               </Grid>
             </Grid>
