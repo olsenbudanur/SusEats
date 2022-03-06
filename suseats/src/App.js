@@ -10,7 +10,8 @@ import Profile from "./Pages/Profile";
 function App() {
   const [page, setPage] = useState("Home");
   const [isAuthenticated, setAuthenticated] = useState(false);
-  const [user, setUser] = useState("")
+  const [user, setUser] = useState("");
+  const [userType, setUserType] = useState("person");
 
   if (page === "Home") {
     return     <ThemeProvider theme={theme}>
@@ -20,13 +21,13 @@ function App() {
 
   if (page === "Sales") {
     return <ThemeProvider theme={theme}>
-      <Auctions changePage={setPage}/>
+      <Auctions changePage={setPage} userType={userType}/>
   </ThemeProvider>
   }
 
   if (page === "Profile") {
     return <ThemeProvider theme={theme}>
-      <Profile changePage={setPage} isAuthenticated={isAuthenticated} setAuthenticated={setAuthenticated} setUser={setUser}/>
+      <Profile changePage={setPage} setUserType={setUserType} isAuthenticated={isAuthenticated} setAuthenticated={setAuthenticated} setUser={setUser}/>
       </ThemeProvider>
   }
 
