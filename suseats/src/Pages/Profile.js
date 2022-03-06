@@ -19,7 +19,7 @@ export default function Profile(props) {
   const [foodPrefs, setFoodPrefs] = useState([]);
   const [userType, setUserType] = useState("");
 
-  const [loginEmail, setLoginEmail] = useState("");
+  const [loginIdentifier, setLoginID] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
   //name, email, phone, password, food pref., public key
@@ -31,78 +31,115 @@ export default function Profile(props) {
           background="linear-gradient(to bottom right, #57CC99, #38A3A5)"
         />
         <Box sx={{ borderRadius: "10px", backgroundColor: "#FFF", p: 2, m: 2 }}>
-          <Grid container spacing={2} p={2}>
-            <Grid item xs={12}>
-              <Typography variant="h4">Edit My Profile</Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h5">Basics</Typography>
-            </Grid>
-            <Grid item xs={12} sm={4} md={3}>
-              <TextField fullWidth label="First Name"></TextField>
-            </Grid>
-            <Grid item xs={12} sm={4} md={3}>
-              <TextField fullWidth label="Last Name"></TextField>
-            </Grid>
-            <Grid
-              item
-              sm={4}
-              md={6}
-              sx={{ display: { xs: "none", sm: "flex" } }}
-            />
-            <Grid item xs={12} sm={4} md={3}>
-              <TextField fullWidth label="Email"></TextField>
-            </Grid>
-            <Grid item xs={12} sm={4} md={3}>
-              <TextField fullWidth label="Phone"></TextField>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h5">Tailor Your Recommendations</Typography>
-            </Grid>
-            <Grid item xs={12} sm={4} md={3}>
-              <TextField fullWidth label="Address"></TextField>
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl sx={{ width: 300 }}>
-                <InputLabel
-                  id="demo-multiple-checkbox-label"
-                  sx={{ background: "#FFF" }}
-                >
-                  Cuisine Preferences
-                </InputLabel>
-                <Select
-                  labelId="demo-multiple-checkbox-label"
-                  id="demo-multiple-checkbox"
-                  multiple
-                  value={foodPrefs}
-                  onChange={(event) => {
-                    setFoodPrefs(event.target.value);
+          {userType === "person" ? (
+            <Grid container spacing={2} p={2}>
+              <Grid item xs={12}>
+                <Typography variant="h4">Edit My Profile</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h5">Basics</Typography>
+              </Grid>
+              <Grid item xs={12} sm={4} md={3}>
+                <TextField fullWidth label="First Name"></TextField>
+              </Grid>
+              <Grid item xs={12} sm={4} md={3}>
+                <TextField fullWidth label="Last Name"></TextField>
+              </Grid>
+              <Grid
+                item
+                sm={4}
+                md={6}
+                sx={{ display: { xs: "none", sm: "flex" } }}
+              />
+              <Grid item xs={12} sm={4} md={3}>
+                <TextField fullWidth label="Email"></TextField>
+              </Grid>
+              <Grid item xs={12} sm={4} md={3}>
+                <TextField fullWidth label="Phone"></TextField>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h5">
+                  Tailor Your Recommendations
+                </Typography>
+              </Grid>
+              <Grid item xs={12} sm={4} md={3}>
+                <TextField fullWidth label="Address"></TextField>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl sx={{ width: 300 }}>
+                  <InputLabel
+                    id="demo-multiple-checkbox-label"
+                    sx={{ background: "#FFF" }}
+                  >
+                    Cuisine Preferences
+                  </InputLabel>
+                  <Select
+                    labelId="demo-multiple-checkbox-label"
+                    id="demo-multiple-checkbox"
+                    multiple
+                    value={foodPrefs}
+                    onChange={(event) => {
+                      setFoodPrefs(event.target.value);
+                    }}
+                    input={<OutlinedInput label="Cuisines" />}
+                    renderValue={(selected) => selected.join(", ")}
+                  >
+                    {cuisines.map((cuisine) => (
+                      <MenuItem key={cuisine} value={cuisine}>
+                        <Checkbox checked={foodPrefs.indexOf(cuisine) > -1} />
+                        <ListItemText primary={cuisine} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    color: "white",
+                    background:
+                      "linear-gradient(to bottom right, #57CC99, #38A3A5)",
                   }}
-                  input={<OutlinedInput label="Cuisines" />}
-                  renderValue={(selected) => selected.join(", ")}
                 >
-                  {cuisines.map((cuisine) => (
-                    <MenuItem key={cuisine} value={cuisine}>
-                      <Checkbox checked={foodPrefs.indexOf(cuisine) > -1} />
-                      <ListItemText primary={cuisine} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+                  Submit Changes
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Button
-                variant="contained"
-                sx={{
-                  color: "white",
-                  background:
-                    "linear-gradient(to bottom right, #57CC99, #38A3A5)",
-                }}
-              >
-                Submit Changes
-              </Button>
+          ) : (
+            <Grid container spacing={2} p={2}>
+              <Grid item xs={12}>
+                <Typography variant="h4">Edit Restaurant Profile</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h5">Basics</Typography>
+              </Grid>
+              <Grid item xs={12} sm={4} md={3}>
+                <TextField fullWidth label="Restaurant Name"></TextField>
+              </Grid>
+              <Grid
+                item
+                sm={8}
+                md={9}
+                sx={{ display: { xs: "none", sm: "flex" } }}
+              />
+              <Grid item xs={12} sm={4} md={3}>
+                <TextField fullWidth label="Address"></TextField>
+              </Grid>
+                            <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    color: "white",
+                    background:
+                      "linear-gradient(to bottom right, #57CC99, #38A3A5)",
+                  }}
+                >
+                  Submit Changes
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
+          )}
         </Box>
       </Box>
     );
@@ -123,7 +160,7 @@ export default function Profile(props) {
                 <Grid item xs={12}>
                   <Typography variant={"h5"}>I am a...</Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={6} md={3}>
                   <Button
                     fullWidth
                     variant="contained"
@@ -139,7 +176,7 @@ export default function Profile(props) {
                     Person
                   </Button>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={6} md={3}>
                   <Button
                     fullWidth
                     variant="contained"
@@ -157,14 +194,14 @@ export default function Profile(props) {
                 </Grid>
               </Grid>
             ) : null}
-            {userType === "person" ? (
+            {userType === "person" || userType === "restaurant" ? (
               <Grid container spacing={2} sx={{ p: 2 }}>
                 <Grid item xs={12} sm={4} md={3}>
                   <TextField
                     fullWidth
-                    label="Email"
+                    label={userType === "person" ? "Email" : "Public Key"}
                     onChange={(e) => {
-                      setLoginEmail(e.target.value);
+                      setLoginID(e.target.value);
                     }}
                   ></TextField>
                 </Grid>
@@ -192,11 +229,18 @@ export default function Profile(props) {
                       var myHeaders = new Headers();
                       myHeaders.append("Content-Type", "application/json");
 
-                      var raw = JSON.stringify({
-                        action: "login",
-                        email: loginEmail,
-                        password: loginPassword,
-                      });
+                      var raw =
+                        userType === "person"
+                          ? JSON.stringify({
+                              action: "login",
+                              email: loginIdentifier,
+                              password: loginPassword,
+                            })
+                          : JSON.stringify({
+                              action: "loginrest",
+                              pubkey: loginIdentifier,
+                              password: loginPassword,
+                            });
 
                       var requestOptions = {
                         method: "POST",
@@ -211,13 +255,15 @@ export default function Profile(props) {
                       )
                         .then((response) => response.text())
                         .then((result) => {
+                          console.log(result);
                           result = JSON.parse(result);
-                          console.log(result)
+                          console.log(result);
                           console.log(result["status"]);
 
                           if (result.status === "success") {
                             props.setAuthenticated(true);
                             props.setUser(result.userid);
+                            props.setUserType(userType);
                           }
                         })
                         .catch((error) => console.log("error", error));
