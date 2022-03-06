@@ -14,7 +14,7 @@ function App() {
   const [userType, setUserType] = useState("person");
 
 
-  console.log(user)
+  console.log(user, userType)
   if (page === "Home") {
     return     <ThemeProvider theme={theme}>
     <Home changePage={setPage}/>
@@ -29,7 +29,7 @@ function App() {
 
   if (page === "Profile") {
     return <ThemeProvider theme={theme}>
-      <Profile changePage={setPage} setUserType={setUserType} isAuthenticated={isAuthenticated} setAuthenticated={setAuthenticated} setUser={setUser}/>
+      <Profile changePage={setPage} setUserType={setUserType} userType={userType} isAuthenticated={isAuthenticated} setAuthenticated={setAuthenticated} setUser={setUser}/>
       </ThemeProvider>
   }
 

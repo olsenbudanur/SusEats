@@ -2,7 +2,7 @@ import { Box } from "@mui/system";
 import Typography from "@mui/material/Typography";
 import { Grid, TextField } from "@mui/material";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 const { ethers } = require("ethers");
 
@@ -10,7 +10,48 @@ export default function AuctionCard(props) {
   const [hearted, setHearted] = useState(false);
   const [bidAmount, setBidAmount] = useState("");
   const address = props.address;
+  const id = props.id;
 
+  const [price, setPrice] = useState(0.0);
+
+  const fetchPrice = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      action: "getbidsbyauction",
+      auctionid: id,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://us-central1-aiot-fit-xlab.cloudfunctions.net/suseats",
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => {
+        result = JSON.parse(result);
+        let maxBid = 0.0;
+        result.bids.forEach((item) => {
+          console.log(item)
+          if (parseFloat(item.amount) > maxBid) {
+            maxBid = parseFloat(item.amount);
+          }
+        })
+        setPrice(maxBid);
+      })
+      .catch((error) => console.log("error", error));
+  };
+
+  useEffect(() => {
+    fetchPrice();
+  })
 
   async function bid() {
     //
@@ -235,13 +276,16 @@ export default function AuctionCard(props) {
               Price:
             </Typography>
             <Typography paragraph sx={{ fontSize: 22 }}>
-              0.001 ETH
+              {price} ETH
             </Typography>
           </Grid>
           <Grid item xs={6}>
-            <TextField label="Bid Amount" onChange={(e) => {
-              setBidAmount(e.target.value)
-            }}></TextField>
+            <TextField
+              label="Bid Amount"
+              onChange={(e) => {
+                setBidAmount(e.target.value);
+              }}
+            ></TextField>
           </Grid>
           <Grid item xs={2}></Grid>
           <Grid item xs={4}>
@@ -253,6 +297,39 @@ export default function AuctionCard(props) {
                   "linear-gradient(to bottom right, #57CC99, #38A3A5)",
               }}
               onClick={() => {
+                console.log(props.user)
+                if (props.user !== "" && props.user !== undefined) {
+                  var myHeaders = new Headers();
+                  myHeaders.append("Content-Type", "application/json");
+
+                  var raw = JSON.stringify({
+                    action: "addbid",
+                    auctionid: id,
+                    userid: props.user,
+                    amount: parseFloat(bidAmount),
+                  });
+
+                  var requestOptions = {
+                    method: "POST",
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: "follow",
+                  };
+
+                  fetch(
+                    "https://us-central1-aiot-fit-xlab.cloudfunctions.net/suseats",
+                    requestOptions
+                  )
+                    .then((response) => response.text())
+                    .then((result) => {
+                      alert("Bid Successfully Placed!");
+                      fetchPrice();
+                    }
+                    )
+                    .catch((error) => console.log("error", error));
+                } else {
+                  alert("Log in before placing a bid");
+                }
               }}
             >
               Enter Bid

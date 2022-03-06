@@ -18,7 +18,7 @@ const cuisines = ["Mexican", "Thai", "Chinese"];
 
 export default function Profile(props) {
   const [foodPrefs, setFoodPrefs] = useState([]);
-  const [userType, setUserType] = useState("");
+  const [userType, setUserType] = useState(props.userType);
 
   const [loginIdentifier, setLoginID] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
@@ -470,7 +470,7 @@ export default function Profile(props) {
                           console.log(result["status"]);
 
                           if (result.status === "success") {
-                            userType === "restaurant" ? props.setUser(result.restid) : props.setUser(result.userreid);
+                            userType === "restaurant" ? props.setUser(result.restid) : props.setUser(result.userid);
                             props.setUserType(userType);
                             props.setAuthenticated(true);
                             console.log(result.userid)

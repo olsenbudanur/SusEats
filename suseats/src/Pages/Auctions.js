@@ -413,9 +413,11 @@ export default function Auctions(props) {
                 <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
                   <AuctionCard
                     address={auction.address}
+                    id={auction.auctionid}
                     image={auction.imageurl}
                     restaurantName={auction.restaurantname}
                     description={auction.description}
+                    user={props.user}
                   />
                 </Grid>
               );
@@ -478,14 +480,6 @@ export default function Auctions(props) {
                             const mostRecent = list[list.length - 1];
                             var t = new Date();
                             t.setSeconds(t.getSeconds() + 120);
-                            console.log(
-                              props.user,
-                              mostRecent,
-                              imageURL,
-                              cuisine,
-                              foodDescription,
-                              t.toString()
-                            );
                             var myHeaders = new Headers();
                             myHeaders.append(
                               "Content-Type",
