@@ -9,6 +9,40 @@ import requests
 
 from hashlib import sha256
 
+
+
+
+def MageCall(param1):
+    url = "https://api.mage.ai/v1/predict"
+
+    payload = json.dumps({
+    "api_key": "REDACTED",
+    "features": [
+        {
+        "id": param1
+        }
+    ],
+    "include_features": False,
+    "model": "recommendations_rank_1646591694022",
+    "version": "1"
+    })
+    headers = {
+    'Content-Type': 'application/json'
+    }
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+
+    print(response.text)
+    
+    js = json.loads(response.text)
+    
+    return js[0]['prediction']
+
+
+
+
+
+
 def sendsms(tonum, auctionid):
 
 
@@ -79,6 +113,17 @@ def dummy(request):
     action = request_json['action']
 
 
+    
+    if action == "magecall":
+        param1 = request_json['userid']
+
+        resp = MageCall(int(param1))
+
+        retjson['restaurantids'] = resp
+
+        return json.dumps(retjson)
+    
+    
 
     if action == "getbidsbyauction":
         col = db.bids
