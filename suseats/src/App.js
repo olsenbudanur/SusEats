@@ -13,6 +13,8 @@ function App() {
   const [user, setUser] = useState("");
   const [userType, setUserType] = useState("person");
 
+
+  console.log(user)
   if (page === "Home") {
     return     <ThemeProvider theme={theme}>
     <Home changePage={setPage}/>
@@ -21,7 +23,7 @@ function App() {
 
   if (page === "Sales") {
     return <ThemeProvider theme={theme}>
-      <Auctions changePage={setPage} userType={userType}/>
+      <Auctions changePage={setPage} userType={userType} user={user}/>
   </ThemeProvider>
   }
 
