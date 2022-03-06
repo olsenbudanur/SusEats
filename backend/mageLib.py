@@ -6,7 +6,7 @@ def MageCall(param1, param2):
     url = "https://api.mage.ai/v1/predict"
 
     payload = json.dumps({
-    "api_key": "MBhHDft3bLlyww5J0CnNiFsyPSSxnKfRXI8D3Iqh",
+    "api_key": "redacted for security",
     "features": [
         {
         "id": param1
