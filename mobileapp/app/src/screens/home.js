@@ -29,6 +29,7 @@ export default function Home({route}) {
 
       const [like, setlike] = useState('1')
       const [bid, setbid] = useState('')
+      const [curated, setCurated] = useState([]);
       const [success, setsuccess] = useState(false)
       const [auctions, setauctions] = useState({"status": "success", "auctions": [{"auctionid": "2", "restaurantid": "2", "restaurantname": "dominos", "cuisine":
       "italian", "description": "chicken parmesan", "imageurl":
@@ -87,8 +88,32 @@ export default function Home({route}) {
         .catch(error => console.log('error', error));
       }
 
+      const _getCuratedAuctions = () => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+        "action": "magecall",
+        "userid":userid
+        });
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+        };
+
+        fetch("https://us-central1-aiot-fit-xlab.cloudfunctions.net/suseats", requestOptions)
+        .then(response => response.json())
+        .then(result => {console.log(result.restaurantids); setCurated(result.restaurantids)})
+        .catch(error => console.log('error', error));
+
+      }
+
       useEffect(() => {
           _getAuctions();
+          _getCuratedAuctions();
       }, [])
 
       if (!fontsLoaded) {
@@ -108,7 +133,7 @@ export default function Home({route}) {
             <Text style={{fontFamily:'BalsamiqSans_400Regular',textAlign:'left', marginHorizontal:'5%', textAlignVertical:'center', color:"#57CC99", fontSize:15, marginBottom:'5%'}}>Here are some ongoing auctions curated for you</Text>
             
             <View style={{height:600}}>
-                <ScrollView>{auctions.auctions.map((item)=>(<View style={{alignSelf:'center', alignContent:'center', borderRadius:20, borderWidth:1, borderColor:'#EAEAEA', paddingBottom:'5%', backgroundColor:"#57CC99", elevation:1}}>
+                <ScrollView>{auctions.auctions.map((item)=>(curated.includes(parseInt(item.auctionid))&&<View style={{alignSelf:'center', alignContent:'center', borderRadius:20, borderWidth:1, borderColor:'#EAEAEA', paddingBottom:'5%', backgroundColor:"#57CC99", elevation:1}}>
             <View style={{alignSelf:'center', alignContent:'center', borderRadius:20,backgroundColor:"#EAEAEA", opacity:1, marginBottom:'5%', paddingBottom:'5%'}}>
                 <View style={{alignSelf:'center', alignContent:'center', borderRadius:20,backgroundColor:"#FFF", opacity:1, marginBottom:'5%'}}>
                     <Text style={{position:'absolute', opacity:0.5, borderTopRightRadius:20,borderBottomLeftRadius:20, top:0, right:0, zIndex:3, backgroundColor:'#EAEAEA', width:100, height:50, textAlignVertical:'center', textAlign:'center', fontFamily:'BalsamiqSans_400Regular'}}>{item.cuisine}</Text>
