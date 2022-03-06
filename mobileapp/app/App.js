@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Splash from './src/screens/splash';
+import Home from './src/screens/home';
 
 
 
@@ -15,6 +16,11 @@ function SusStack() {
       <Stack.Screen 
         name="Splash" 
         component={Splash} 
+        options={{ headerShown: false}} 
+      />
+      <Stack.Screen 
+        name="Home" 
+        component={Home} 
         options={{ headerShown: false}} 
       />
     </Stack.Navigator>

@@ -47,7 +47,7 @@ export default function Splash() {
         
         fetch("https://us-central1-aiot-fit-xlab.cloudfunctions.net/suseats", requestOptions)
           .then(response => response.json())
-          .then(result => console.log(result))
+          .then(result => {console.log(result); if(result.status=="success"){navigation.navigate('Home',{userid:result.userid, name:result.name})}})
           .catch(error => console.log('error', error));
       }
 
